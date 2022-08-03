@@ -1,0 +1,14 @@
+#ul_to_hide {
+  height: 0px;
+  transition: all .3s;
+  overflow: hidden;
+  padding-left: 2rem;
+}
+
+#header_button {
+  display: none;
+}
+
+#header_button:checked~#ul_to_hide {
+  height: 100px;
+}

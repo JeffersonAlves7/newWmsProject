@@ -1,0 +1,36 @@
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+html {
+    overflow-x: hidden;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+}
+
+#root {
+    height: 100vh;
+    padding-bottom: 2rem;
+}
+
+.line_after {
+    position: relative;
+}
+
+.line_after:hover::after {
+    width: 100%;
+}
+
+.line_after::after {
+    content: "";
+    width: 0%;
+    height: 1px;
+    background-color: #c171f2;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    transition: all 0.2s ease-in-out;
+}

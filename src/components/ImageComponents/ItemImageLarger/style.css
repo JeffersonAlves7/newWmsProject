@@ -1,0 +1,7 @@
+#item-image {
+  transition: all .4s ease-out;
+}
+
+#item-image:hover {
+  transform: scale(1.04);
+}
