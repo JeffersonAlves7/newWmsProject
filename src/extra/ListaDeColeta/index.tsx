@@ -9,27 +9,15 @@ const Paragraph = ({ text }: { text: string | number }) => (<p className="text-[
 const ThCell = ({ text }: { text: string }) => (<th><h2>{text}</h2></th>)
 
 function Row({ pedido }: { pedido: UIPedido }) {
-    const Cell = (props: PropsWithChildren) => (<td><div className="flex items-center justify-center pr-1 pl-1">{props.children}</div></td>)
+    const Cell = (props: PropsWithChildren) => (<td><div className="flex items-center flex-col justify-center pr-1 pl-1">{props.children}</div></td>)
     return (
         <tr>
-            <Cell>
-                <Paragraph text={pedido.nf} />
-            </Cell>
-            <Cell>
-                <svg ref={useBarcode({ value: `${pedido.chavedeacesso}`, options: { fontSize: 10, height: 55, width: 1 } }).inputRef} />
-            </Cell>
-            <Cell>
-                {pedido.itens?.map(item => <Paragraph text={item.sku} />)}
-            </Cell>
-            <Cell>
-                <Paragraph text={pedido.pedido} />
-            </Cell>
-            <Cell>
-                <Paragraph text={pedido.integracao} />
-            </Cell>
-            <Cell>
-                {pedido.itens?.map(item => <Paragraph text={item.quantidade} />)}
-            </Cell>
+            <Cell> <Paragraph text={pedido.nf} /> </Cell>
+            <Cell> <svg ref={useBarcode({ value: `${pedido.chavedeacesso}`, options: { fontSize: 10, height: 55, width: 1 } }).inputRef} /> </Cell>
+            <Cell> {pedido.itens?.map(item => <Paragraph key={"coleta_sku_" + item.sku} text={item.sku} />)} </Cell>
+            <Cell> <Paragraph text={pedido.pedido} /> </Cell>
+            <Cell> <Paragraph text={pedido.integracao} /> </Cell>
+            <Cell> {pedido.itens?.map(item => <Paragraph key={"coleta_qnt_" + item.sku} text={item.quantidade} />)} </Cell>
         </tr>
     )
 }
@@ -61,12 +49,11 @@ export default function ListaDeColeta() {
                             <ThCell text="SKU" />
                             <ThCell text="Número do Pedido" />
                             <ThCell text="Canal" />
-                            <ThCell text="Canal" />
                             <ThCell text="Qnt" />
                         </tr>
                     </thead>
                     <tbody>
-                        {pedidos.filter(pedido => pedido.situacao !== "embalado").map(pedido => <Row pedido={pedido} />)}
+                        {pedidos.filter(pedido => pedido.situacao !== "embalado").map(pedido => <Row key={"coleta_" + pedido.chavedeacesso} pedido={pedido} />)}
                     </tbody>
                 </table>
             </main>

@@ -20,7 +20,7 @@ export default function Box({ lidos, itens, total }: { lidos: string | number, t
       </header>
       <main className="overflow-y-scroll h-full w-full">
         <ul>
-          {itens.map(item => <Li {...item} />)}
+          {itens.map(item => <Li key={"box_" + item.sku} {...item} />)}
         </ul>
       </main>
       <footer className={"w-full border-t border-slate-300 p-2" + (lidos === total ? " bg-green-400" : "")}>

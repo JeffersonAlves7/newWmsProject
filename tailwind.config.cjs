@@ -12,6 +12,9 @@ module.exports = {
         wmsPurple: '#61377a',
         wmsGrey: '#d4d4d4',
         wmsBlack: "#4B4848"
+      },
+      fontFamily: {
+        serif: ['Abhaya Libre', 'serif']
       }
     },
   },

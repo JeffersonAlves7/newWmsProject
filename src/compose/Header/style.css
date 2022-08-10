@@ -10,5 +10,5 @@
 }
 
 #header_button:checked~#ul_to_hide {
-  height: 100px;
+  height: 140px;
 }

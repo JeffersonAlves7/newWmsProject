@@ -1,4 +1,4 @@
-export default function Filtro({ title, name, options, seletorId, cb }: { title: string, name: string, options: {}, seletorId: string, cb: Function }) {
+function Filtro({ title, name, options, seletorId, cb }: { title: string, name: string, options: {}, seletorId: string, cb: Function }) {
   const keys = Object.keys(options)
   return (
     <div id={title.toLowerCase()}
@@ -10,3 +10,4 @@ export default function Filtro({ title, name, options, seletorId, cb }: { title:
     </div>
   )
 }
+export default Filtro

@@ -11,7 +11,9 @@ export default function Busca(props: { cb: Function, id?: string, placeholder?: 
         onKeyDown={(e) => props.cb(e)}
         name="pesquisar"
       />
-      <button type="button" title="buscar" onClick={(e) => props.cb(e)} className="w-[30px] h-[30px] flex items-center justify-center">
+      <button type="button" title="buscar"
+        onClick={(e) => props.cb(e)}
+        className="w-[30px] h-[30px] flex items-center justify-center">
         <BiSearch fontSize={20} />
       </button>
     </div>

@@ -9,15 +9,17 @@ function ThCell({ text }: { text: string }) {
 }
 
 export default function PedidosHeader({ only }: { only?: boolean }) {
-  return <tr className="border-b border-black">
-    <ThCell text="Conteúdo" />
-    {
-      only === true
-        ? <ThCell text="SKU" />
-        : <ThCell text="N° do Pedido/NF" />
-    }
-    <ThCell text="Integração" />
-    <ThCell text="Situação" />
-    <ThCell text="Data" />
-  </tr>
+  return <thead>
+    <tr className="border-b border-black">
+      <ThCell text="Data" />
+      {
+        only === true
+          ? <ThCell text="SKU" />
+          : <ThCell text="N° do Pedido/NF" />
+      }
+      <ThCell text="Integração" />
+      <ThCell text="Situação" />
+      <ThCell text="Conteúdo" />
+    </tr>
+  </thead>
 }

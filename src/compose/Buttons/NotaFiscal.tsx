@@ -1,31 +1,20 @@
 import { AiFillPrinter } from "react-icons/ai";
-import WmsLink from "../../components/Buttons/WmsLink";
 import UIPedido from "../../interfaces/UIPedido";
-import services from "../../config/services.json"
-import WmsButton from "../../components/Buttons/WmsButton";
+import services from "../../config/services.json";
+import WmsLink from "../../components/Buttons/WmsLink";
 import Paragraph from "../../components/Texts/Paragraph";
+import WmsButton from "../../components/Buttons/WmsButton";
 
 export default function NotaFiscal({ nf, blank, cb }: { nf?: UIPedido['nf'], blank: boolean, cb?: Function }) {
-  if (blank === true && nf !== undefined) {
-    return (
+  return blank === true && nf !== undefined
+    ? (
       <WmsLink blank={services.api.baseURL + "/notas?nf=" + nf}>
-        <>
-          <AiFillPrinter size={20} />
-          <Paragraph text="Nota Fiscal" />
-        </>
+        <> <AiFillPrinter size={20} /> <Paragraph text="Nota Fiscal" /> </>
       </WmsLink>
     )
-  }
-  // <iframe className="h-[30rem] w-full" src={services.api.baseURL + "/notas?nf=" + nf}></iframe>
-
-  return (
-    <WmsButton onClick={() => {
-      if (cb) cb(true)
-    }}>
-      <>
-        <AiFillPrinter size={20} />
-        <Paragraph text="Nota Fiscal" />
-      </>
-    </WmsButton>
-  )
+    : (
+      <WmsButton onClick={() => { if (cb) cb(true) }}>
+        <> <AiFillPrinter size={20} /> <Paragraph text="Nota Fiscal" /> </>
+      </WmsButton>
+    )
 }

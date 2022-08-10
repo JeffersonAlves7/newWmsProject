@@ -8,16 +8,14 @@ import TableCell from "../../components/TableCell";
 import UIPedido from "../../interfaces/UIPedido";
 import Paragraph from "../../components/Texts/Paragraph";
 
-export default function PedidoRow({ pedido, only }: { pedido: UIPedido, only?: boolean }) {
+function PedidoRow({ pedido, only }: { pedido: UIPedido, only?: boolean }) {
   return (
     <tr className="border-b border-wmsGrey" key={pedido.chavedeacesso + pedido.pedido}>
-      <TableCell>
-        {pedido.itens?.map(item => <Item item={item} />)}
-      </TableCell>
+      <TableCell> <DataFormat data={pedido.gerado} /> </TableCell>
       <TableCell>
         {only === true
-          ? pedido.itens?.map(item => <Paragraph text={item.sku} />)
-          : <WmsLink href={"/pedido/" + pedido.pedido} >
+          ? pedido.itens?.map(item => <Paragraph text={item.sku} key={pedido.chavedeacesso + item.sku} />)
+          : <WmsLink key={pedido.chavedeacesso + pedido.pedido + pedido.nf} href={"/pedido/" + pedido.pedido} >
             <div className="flex font-semibold items-center text-center text-sm sm:text-[1rem] justify-center flex-col">
               <Paragraph text={pedido.pedido} />
               <Paragraph text={pedido.nf} />
@@ -25,16 +23,10 @@ export default function PedidoRow({ pedido, only }: { pedido: UIPedido, only?: b
           </WmsLink>
         }
       </TableCell>
-      <TableCell>
-        <IntegracaoImage integracao={pedido.integracao} />
-      </TableCell>
-      <TableCell>
-        <Situacao situacao={pedido.situacao} />
-      </TableCell>
-      <TableCell>
-        <DataFormat data={pedido.gerado} />
-      </TableCell>
+      <TableCell> <IntegracaoImage integracao={pedido.integracao} /> </TableCell>
+      <TableCell> <Situacao situacao={pedido.situacao} /> </TableCell>
+      <TableCell> {pedido.itens?.map(item => <Item key={pedido.chavedeacesso + item.sku + item.pedidoBling} item={item} />)} </TableCell>
     </tr>
   )
-
 }
+export default PedidoRow

@@ -8,14 +8,14 @@ import UIPedido from "../../interfaces/UIPedido";
 function Row(props: { className?: string, style?: CSSProperties, children: ReactNode }) {
   return (
     <td className={props.className ? props.className : ""} style={props.style ? props.style : {}}>
-      <div className="h-[28px] pl-1 pr-1 min-w-max flex items-center justify-center">
+      <div className="p-1 min-w-max flex items-center justify-center">
         {props.children}
       </div>
     </td>
   )
 }
 
-const textSize = " text-[.75rem] "
+const textSize = " text-[.72rem] print:text-[.58rem] "
 
 function Paragraph(props: { text: string | number }) {
   return <p className={"text-center" + textSize}>
@@ -37,9 +37,6 @@ export default function RelatorioRow({ pedido }: { pedido: UIPedido }) {
       </Row>
       <Row>
         <Paragraph text={pedido.integracao} />
-      </Row>
-      <Row>
-        <Paragraph text={pedido.qntItens} />
       </Row>
       <Row>
         <Situacao className={textSize + "text-center"} situacao={pedido.situacao} />

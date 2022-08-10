@@ -1,86 +1,86 @@
-import { PropsWithChildren } from "react";
+import api from "../../api";
+import UILista from "../../interfaces/UILista";
 
-import WmsButton from "../../components/Buttons/WmsButton";
-import WmsLink from "../../components/Buttons/WmsLink";
-import DataFormat from "../../components/DataFormat";
+import ListaDeColeta from "../Buttons/ListaDeColeta";
+import ListaDeSeparacao from "../Buttons/ListaDeSeparacao";
+
 import Situacao from "../../components/Situacao";
 import TableCell from "../../components/TableCell";
+import DataFormat from "../../components/DataFormat";
+import WmsLink from "../../components/Buttons/WmsLink";
+import Paragraph from "../../components/Texts/Paragraph";
+import WmsButton from "../../components/Buttons/WmsButton";
 import IntegracaoImage from "../../components/ImageComponents/IntegracaoImage";
 
-import UILista from "../../interfaces/UILista";
-import api from "../../api";
-
-import ListaDeSeparacao from "../Buttons/ListaDeSeparacao";
-import ListaDeColeta from "../Buttons/ListaDeColeta";
-import Paragraph from "../../components/Texts/Paragraph";
-
 function Status({ lista }: { lista: UILista }) {
-  if (lista.situacao == "criar") return (
-    <WmsButton onClick={(e: MouseEvent) => {
-      (async () => {
-        await api.put("/listas", {
-          id: lista.id,
-          situacao: "emaberto"
-        })
-        window.location.reload()
-      })()
-    }} text="Gerar Lista" />
-  )
-  if (lista.situacao == "emaberto") return (
-    <div className="flex flex-col gap-1">
-      <ListaDeColeta id={lista.id} />
-      <ListaDeSeparacao id={lista.id} />
-    </div>
-  )
-  if (lista.situacao == "finalizado") return (
-    <Situacao situacao={lista.situacao} />
-  )
-  return <></>
-}
-
-function IdLista({ lista }: { lista: UILista }) {
-  if (lista.situacao !== "criar") return (
-    <WmsLink text={`${lista.id}`} href={`/lista/${lista.id}`} />
-  )
-  return <p>{lista.id}</p>
+  if (lista.lista_situacao == "criar")
+    return (
+      <WmsButton
+        onClick={() => {
+          (async () => {
+            await api.put("/listas", { id: lista.id, situacao: "emaberto" });
+            window.location.reload();
+          })();
+        }}
+        text="Gerar Lista"
+      />
+    );
+  if (lista.lista_situacao == "emaberto")
+    return (
+      <div className="flex flex-col gap-1">
+        <ListaDeColeta id={lista.id} />
+        <ListaDeSeparacao id={lista.id} />
+      </div>
+    );
+  if (lista.lista_situacao == "finalizado")
+    return <Situacao situacao={lista.lista_situacao} />;
+  return <></>;
 }
 
 export default function ListasRow({ lista }: { lista: UILista }) {
-  function First() {
-    return (
-      <>
-        <TableCell>
-          <IdLista lista={lista} />
-        </TableCell>
-        <TableCell>
-          <IntegracaoImage integracao={lista.integracao} />
-        </TableCell>
-        <TableCell>
-          <Paragraph text={lista.pedidos} />
-        </TableCell>
-        <TableCell>
-          <Status lista={lista} />
-        </TableCell>
-      </>
-    )
-  }
+  const First = () => (
+    <>
+      <TableCell>
+        {lista.lista_situacao !== "criar" ? (
+          <WmsLink text={`${lista.id}`} href={`/lista/${lista.id}`} />
+        ) : (
+          <Paragraph text={lista.id} />
+        )}
+      </TableCell>
+      <TableCell>
+        {" "}
+        <IntegracaoImage integracao={lista.lista_integracao} />{" "}
+      </TableCell>
+      <TableCell>
+        <div className="flex">
+          <Paragraph
+            text={
+              lista.pedidos.filter(
+                (pedido) =>
+                  ["embalado", "finalizado"].indexOf(pedido.situacao) !== -1
+              ).length +
+              "/" +
+              lista.pedidos.length
+            }
+          />
+        </div>
+      </TableCell>
+      <TableCell>
+        <Status lista={lista} />{" "}
+      </TableCell>
+    </>
+  );
 
-  function Tr(props: PropsWithChildren) {
-    return <tr className="border-b h-[60px] border-wmsGrey">{props.children}</tr>
-  }
-
-  if (lista.situacao !== "finalizado") return (
-    <Tr>
+  return lista.lista_situacao !== "finalizado" ? (
+    <tr className="border-b h-[60px] border-wmsGrey">
       <First />
-    </Tr>
-  )
-
-  return (
-    <Tr>
+    </tr>
+  ) : (
+    <tr className="border-b h-[60px] border-wmsGrey">
       <First />
       <TableCell>
-        <DataFormat data={lista.gerado ? lista.alterado : lista.date} />
+        <DataFormat data={lista.lista_gerada} />
       </TableCell>
-    </Tr>
-  )
+    </tr>
+  );
 }

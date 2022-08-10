@@ -1,46 +1,59 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Header from "./compose/Header"
+import Header from "./compose/Header";
 
-import Home from "./views/Home"
-import Historico from "./views/Historico"
-import Relatorio from "./views/Relatorio"
+import Home from "./views/Home";
+import Login from "./views/Login";
 
-import Listas from "./views/Listas"
-import Lista from "./views/Lista"
-import Pedido from "./views/Pedido"
+import Historico from "./views/Historico";
+import Relatorio from "./views/Relatorio";
 
-import ListaDeColeta from "./extra/ListaDeColeta"
-import ListaDeSeparacao from "./extra/ListaDeSeparacao"
+import Listas from "./views/Listas";
+import Lista from "./views/Lista";
+import Pedido from "./views/Pedido";
 
-import Embalar from "./views/Embalar"
-import ListaAtiva from "./views/ListaAtiva"
-import Checkout from "./views/Checkout"
+import ListaDeColeta from "./extra/ListaDeColeta";
+import ListaDeSeparacao from "./extra/ListaDeSeparacao";
+
+import Embalar from "./views/Embalar";
+import ListaAtiva from "./views/ListaAtiva";
+import Checkout from "./views/Checkout";
+import Container from "./compose/Container";
 
 function App() {
-  return <Router>
-    <Header />
-    <div className='w-full min-h-screen flex print:pt-0 justify-center pt-[9rem]'>
-      <Routes>
-        <Route path="/" element={<Home />} />
+  return (
+    <Router>
+      <Container>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/reguster" element={<Home />} />
 
-        <Route path="/historico" element={<Historico />} />
-        <Route path="/relatorio" element={<Relatorio />} />
+          {/* Link para acessar Histórico e o Relatório*/}
+          <Route path="/historico" element={<Historico />} />
+          <Route path="/relatorio" element={<Relatorio />} />
 
-        <Route path="/listas/:situacao" element={<Listas />} />
+          {/* Link para acessar todas as listas */}
+          <Route path="/listas/:situacao" element={<Listas />} />
 
-        <Route path="/lista/:id" element={<Lista />} />
-        <Route path="/pedido/:pedido" element={<Pedido />} />
+          {/* Link para acessar a lista e botão de acessar o pedido */}
+          <Route path="/lista/:id" element={<Lista />} />
+          <Route path="/pedido/:pedido" element={<Pedido />} />
 
-        <Route path="/embalar" element={<Embalar />} />
-        <Route path="/listaAtiva/:id" element={<ListaAtiva />} />
-        <Route path="/checkout/:chavedeacesso" element={<Checkout />} />
+          {/* Area da tela de embalar até o checkout */}
+          <Route path="/embalar" element={<Embalar />} />
+          <Route path="/embalar/:error" element={<Embalar />} />
+          <Route path="/listaAtiva/:id" element={<ListaAtiva />} />
+          <Route path="/listaAtiva/:id/:error" element={<ListaAtiva />} />
+          <Route path="/checkout/:chavedeacesso" element={<Checkout />} />
 
-        <Route path="/listaDeColeta/:id" element={<ListaDeColeta />} />
-        <Route path="/listaDeSeparacao/:id" element={<ListaDeSeparacao />} />
-      </Routes>
-    </div>
-  </Router>
+          {/* Lista de coleta e lista de separação para impressão */}
+          <Route path="/listaDeColeta/:id" element={<ListaDeColeta />} />
+          <Route path="/listaDeSeparacao/:id" element={<ListaDeSeparacao />} />
+        </Routes>
+      </Container>
+    </Router>
+  );
 }
 
-export default App
+export default App;

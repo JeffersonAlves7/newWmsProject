@@ -4,13 +4,12 @@ import { useParams } from "react-router-dom";
 import api from "../../api";
 import UIPedido from "../../interfaces/UIPedido";
 
-import PedidosHeader from "../../compose/PedidosHeader";
 import PedidoRow from "../../compose/PedidosRow";
-import ScrollView from "../../components/ScrollView";
+import PedidosHeader from "../../compose/PedidosHeader";
 
+import Subtitle from "../../components/Texts/Subtitle";
 import ListaDeColeta from "../../compose/Buttons/ListaDeColeta";
 import ListaDeSeparacao from "../../compose/Buttons/ListaDeSeparacao";
-import Subtitle from "../../components/Texts/Subtitle";
 
 export default function Lista() {
   const { id } = useParams()
@@ -18,11 +17,7 @@ export default function Lista() {
   const [pedidos, setPedidos] = useState<UIPedido[]>([])
 
   useEffect(() => {
-    api.get("/pedidos?itens=true&idLista=" + id).then(({ data }) => {
-      const { response } = data
-      console.log(response)
-      setPedidos(response)
-    })
+    api.get("/pedidos?itens=true&idLista=" + id).then(({ data }) => setPedidos(data.response))
   }, [])
 
   if (!pedidos) return <></>
@@ -36,14 +31,14 @@ export default function Lista() {
           <ListaDeSeparacao id={id ? Number(id) : 0} />
         </div>
       </header>
-      <ScrollView alter={pedidos} length={pedidos.length} total={5}>
+      <main className="w-full">
         <table className="w-full">
           <PedidosHeader />
           <tbody>
-            {pedidos.map(pedido => <PedidoRow pedido={pedido} />)}
+            {pedidos.map(pedido => <PedidoRow key={"lista_" + pedido.chavedeacesso} pedido={pedido} />)}
           </tbody>
         </table>
-      </ScrollView>
+      </main>
     </div>
   )
 }

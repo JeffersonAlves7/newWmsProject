@@ -2,14 +2,14 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 
 import api from "../../api"
+import Subtitle from "../../components/Texts/Subtitle"
 import WmsLink from "../../components/Buttons/WmsLink"
 import Paragraph from "../../components/Texts/Paragraph"
-import Subtitle from "../../components/Texts/Subtitle"
 
-import ListaDeColeta from "../../compose/Buttons/ListaDeColeta"
-import NotaFiscal from "../../compose/Buttons/NotaFiscal"
-import PedidosHeader from "../../compose/PedidosHeader"
 import PedidoRow from "../../compose/PedidosRow"
+import PedidosHeader from "../../compose/PedidosHeader"
+import NotaFiscal from "../../compose/Buttons/NotaFiscal"
+import ListaDeColeta from "../../compose/Buttons/ListaDeColeta"
 
 import UIPedido from "../../interfaces/UIPedido"
 
@@ -31,9 +31,7 @@ export default function Pedido() {
   const { pedido } = useParams()
 
   useEffect(() => {
-    api.get("/pedidos?itens=true&pedido=" + pedido).then(({ data }) => {
-      setPedidoInfo(data.response[0])
-    })
+    api.get("/pedidos?itens=true&pedido=" + pedido).then(({ data }) => setPedidoInfo(data.response[0]))
   }, [])
 
   return (
