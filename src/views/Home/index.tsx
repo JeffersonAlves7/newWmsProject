@@ -41,14 +41,14 @@ export default function Home() {
         </div>
         <div className="flex lg:flex-row lg:w-full flex-col items-end gap-4 justfy-between">
           <Resumo pedidos={pedidos} />
-          <div className="flex flex-col items-start justify-center">
+          {/* <div className="flex flex-col items-start justify-center">
             <Subtitle bold={false} text="Pedidos Pendentes" />
             <div className="rounded-xl p-4 h-[18rem] w-[280px] shadow-lg border border-slate-200">
               <div className="w-full h-full flex items-center justify-center border-l-[3px] border-wmsPink">
                 <span className="text-[10rem]">{pendentes}</span>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </main>

@@ -48,7 +48,6 @@ export default function ListasRow({ lista }: { lista: UILista }) {
         )}
       </TableCell>
       <TableCell>
-        {" "}
         <IntegracaoImage integracao={lista.lista_integracao} />{" "}
       </TableCell>
       <TableCell>

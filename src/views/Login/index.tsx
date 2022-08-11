@@ -25,7 +25,6 @@ export default function Login() {
     });
     const { response } = data;
     if (response) return navigator("/");
-
     window.localStorage.removeItem(key);
   }
 
@@ -42,6 +41,7 @@ export default function Login() {
       senha: password,
     });
     const { isLoggedIn } = data;
+    console.log(isLoggedIn);
     if (!isLoggedIn) return;
 
     const user = window.localStorage.getItem(key);
@@ -99,7 +99,7 @@ export default function Login() {
             Entrar
           </button>
         </main>
-        <footer className="flex text-lg flex-col items-start">
+        {/* <footer className="flex text-lg flex-col items-start">
           <p className="font-serif">Ainda não tem um login?</p>
           <a
             className="font-serif font-semibold transition-all text-wmsPink hover:opacity-70"
@@ -107,7 +107,7 @@ export default function Login() {
           >
             Registre-se
           </a>
-        </footer>
+        </footer> */}
       </section>
       <section id="boxBackground" className="rightArea w-full h-full"></section>
     </div>

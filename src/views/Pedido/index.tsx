@@ -47,7 +47,7 @@ export default function Pedido() {
         </div>
         <Subtitle text={`Pedido: ${pedido}`} />
         <div className="grid grid-rows-2 items-center justify-items-center gap-2">
-          <ListaDeColeta id={pedidoInfo.idLista} />
+          <ListaDeColeta id={pedidoInfo.idLista} nf={pedidoInfo.nf}/>
           <NotaFiscal blank={true} nf={pedidoInfo.nf} />
         </div>
       </header>

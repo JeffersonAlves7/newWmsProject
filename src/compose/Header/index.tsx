@@ -67,7 +67,7 @@ export default function Header(props: { cb?: Function }) {
     <header className="print:hidden">
       <main
         className="bg-wmsPink fixed w-[100%] shadow-2xl
-             z-20 h-[100px] flex gap-10 items-center pl-10 pr-10"
+             z-20 h-[100px] flex gap-10 items-center pl-16 pr-16"
       >
         <Hamburguer
           length="3rem"

@@ -16,7 +16,6 @@ export default function Container(props: PropsWithChildren) {
       >
         {props.children}
       </div>
-      ;
     </>
   );
 }

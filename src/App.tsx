@@ -50,6 +50,9 @@ function App() {
           {/* Lista de coleta e lista de separação para impressão */}
           <Route path="/listaDeColeta/:id" element={<ListaDeColeta />} />
           <Route path="/listaDeSeparacao/:id" element={<ListaDeSeparacao />} />
+
+          <Route path="/listaDeColeta/:id/:nf" element={<ListaDeColeta />} />
+          <Route path="/listaDeSeparacao/:id/:nf" element={<ListaDeSeparacao />} />
         </Routes>
       </Container>
     </Router>

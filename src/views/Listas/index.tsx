@@ -81,10 +81,9 @@ export default function Listas() {
             </tr>
           </thead>
           <tbody>
-            {" "}
             {listas.map((lista) => (
               <ListasRow key={"listas_" + lista.id} lista={lista} />
-            ))}{" "}
+            ))}
           </tbody>
         </table>
       </main>
