@@ -8,11 +8,7 @@ import Arrow from "../../components/Buttons/Arrow";
 
 import barrareylogopainel from "../../img/barrareylogopainel.png";
 import "./style.css";
-
-interface UILinks {
-  title: string;
-  link: string;
-}
+import LogoutUser from "../../components/User/LogoutUser";
 
 const Li = (props: { children: ReactNode }) => (
   <li className="flex items-center text-white transition-colors duration-200 hover:text-wmsLightPink">
@@ -20,73 +16,57 @@ const Li = (props: { children: ReactNode }) => (
   </li>
 );
 
-const Li_li = (props: UILinks) => (
-  <Li>
-    <Arrow length="2rem" />
-    <NavLink to={props.link}>{props.title}</NavLink>
-  </Li>
-);
-
 export default function Header(props: { cb?: Function }) {
   const [menuState, setMenuState] = useState(false);
 
   const navClass = () =>
     menuState ? "left-[0]" : "sm:left-[-35%] left-[-100%]";
+
   const alterMenuState = () => {
     document.getElementById("container")?.classList.toggle("sm:pl-[200px]");
     setMenuState(!menuState);
   };
 
   document.onscroll = () => {
+    const element = document.getElementById("buttonToUp") as HTMLElement;
     if (window.pageYOffset > 100) {
-      {
-        (document.getElementById("buttonToUp") as HTMLElement).classList.remove(
-          "opacity-0"
-        );
-      }
-      {
-        (document.getElementById("buttonToUp") as HTMLElement).classList.add(
-          "opacity-80"
-        );
-      }
-    } else {
-      {
-        (document.getElementById("buttonToUp") as HTMLElement).classList.remove(
-          "opacity-80"
-        );
-      }
-      {
-        (document.getElementById("buttonToUp") as HTMLElement).classList.add(
-          "opacity-0"
-        );
-      }
+      element.classList.remove("opacity-0");
+      element.classList.add("opacity-80");
+      return 0;
     }
+    element.classList.remove("opacity-80");
+    element.classList.add("opacity-0");
+    return 0;
   };
 
   return (
     <header className="print:hidden">
       <main
         className="bg-wmsPink fixed w-[100%] shadow-2xl
-             z-20 h-[100px] flex gap-10 items-center pl-16 pr-16"
+             z-20 h-[100px] flex justify-between items-center pl-16 pr-16"
       >
-        <Hamburguer
-          length="3rem"
-          fn={() => {
-            alterMenuState();
-            props.cb ? props.cb() : void 0;
-          }}
-        />
-        <NavLink to="/">
-          <img src={barrareylogopainel} alt="" className="max-w-[200px]" />
-        </NavLink>
+        <div className="flex gap-10 items-center justify-between">
+          <Hamburguer
+            length="3rem"
+            fn={() => {
+              alterMenuState();
+              props.cb ? props.cb() : void 0;
+            }}
+          />
+          <NavLink to="/">
+            <img src={barrareylogopainel} alt="" className="max-w-[200px]" />
+          </NavLink>
+        </div>
+        <LogoutUser />
       </main>
 
       <button
         id="buttonToUp"
         onClick={() => {
           window.scrollTo(0, 0);
+          console.log("To up");
         }}
-        className="rounded-lg flex items-center justify-center transition-all bg-wmsPink opacity-0 w-10 h-10 shadow-xl fixed bottom-5 right-5 z-20"
+        className="rounded-lg flex items-center justify-center transition-all bg-wmsPink opacity-0 w-10 h-10 shadow-xl fixed bottom-1 right-5 z-20"
       >
         <IoIosArrowUp size={30} />
       </button>
@@ -112,10 +92,22 @@ export default function Header(props: { cb?: Function }) {
                 </span>
               </div>
               <ul id="ul_to_hide" className="text-2xl">
-                <Li_li title="Listas" link="/listas/criar" />
-                <Li_li title="Embalar" link="/embalar" />
-                <Li_li title="Histórico" link="/historico" />
-                <Li_li title="Relatório" link="/relatorio" />
+                <Li>
+                  <Arrow length="2rem" />
+                  <NavLink to="/listas/criar">Listas</NavLink>
+                </Li>
+                <Li>
+                  <Arrow length="2rem" />
+                  <NavLink to="/embalar">Embalar</NavLink>
+                </Li>
+                <Li>
+                  <Arrow length="2rem" />
+                  <NavLink to="/historico">Histórico</NavLink>
+                </Li>
+                <Li>
+                  <Arrow length="2rem" />
+                  <NavLink to="/relatorio">Relatório</NavLink>
+                </Li>
               </ul>
             </label>
           </Li>

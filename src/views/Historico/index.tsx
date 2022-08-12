@@ -132,10 +132,13 @@ function Historico() {
     const url = infoToUrl({ page: page });
 
     api.get(url).then(({ data }) => setInfo({ pedidos: data.response, page }));
+
+    window.setTimeout(function () {
+      window.scrollTo(0, document.body.scrollHeight);
+    }, 200);
   }
 
   function Buscar(value: string) {
-    console.log(value);
     if (value.trim() === "") {
       api.get("/pedidos?itens=true&page=1").then((res) => {
         const { response, pages } = res.data;
@@ -145,7 +148,6 @@ function Historico() {
       return 0;
     }
     api.get(`/pedidos/buscar?busca=${value}`).then(({ data }) => {
-      console.log(data);
       setInfo({ pedidos: data.response, page: 1, pages: [1] });
     });
   }
@@ -154,7 +156,7 @@ function Historico() {
     <div className="flex w-[90%]  flex-col items-center gap-10 h-full min-h-[40rem]">
       <header className="flex flex-col gap-5 items-center sm:items-start w-full justify-center">
         <div className="w-full flex sm:justify-start items-center justify-center">
-          <Title text="Histórico de Pedidos" />{" "}
+          <Title text="Histórico de Pedidos" />
         </div>
         <div className="flex justify-center flex-wrap items-center gap-2">
           <Busca
@@ -219,7 +221,7 @@ function Historico() {
       </main>
       <footer className="w-full h-full flex items-center pt-2 pb-2 justify-end pr-1">
         <Pages
-          cb={(p: number) => updatePage(p)}
+          cb={updatePage}
           page={statusData.page}
           pages={statusData.pages}
         />

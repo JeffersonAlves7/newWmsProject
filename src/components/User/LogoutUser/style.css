@@ -1,0 +1,6 @@
+#userLogout > input[type="checkbox"]{
+  display: none;
+}
+#userLogout > input[type="checkbox"]:checked ~ .underground{
+  transform: translateY(30px);
+}

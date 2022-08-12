@@ -11,7 +11,7 @@ export default function Container(props: PropsWithChildren) {
       <div
         id="container"
         className={
-          " w-full print:pl-0 min-h-100% transition-all pb-10 flex print:pt-0 justify-center pt-[9rem]"
+          "max-w-[2080px] m-[0_auto] w-full print:pl-0 min-h-100% transition-all pb-10 flex print:pt-0 justify-center pt-[9rem]"
         }
       >
         {props.children}

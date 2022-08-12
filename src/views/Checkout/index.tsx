@@ -76,9 +76,11 @@ export default function Checkout() {
   function alterItemTotal(sku: IUItem["sku"]) {
     if (!pedido || pedido.finalizado) return;
     const skus = pedido.itens.map(({ sku }) => sku);
+    console.log("Os skus são", skus);
 
     //Primeiro achar o index
     const index = skus.indexOf(sku);
+    console.log("O index é", index);
     if (index < 0) return;
 
     //Copiar todos os items do array
@@ -101,8 +103,7 @@ export default function Checkout() {
     //Verificar as novas informações
     if (itens[index].quantidade === itens[index].totalLidos && !finalizado)
       setCurrentItem(itens[index + 1]);
-
-    setCurrentItem(itens[index]);
+    else setCurrentItem(itens[index]);
   }
 
   if (!pedido || !currentItem) return <></>;
