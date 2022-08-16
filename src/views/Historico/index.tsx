@@ -31,52 +31,41 @@ function Historico() {
   function setInfo(pars: UI_FiltrarPedidos) {
     const { situacao, integracao, busca, data, page, pages, pedidos } = pars;
     setStatusData({
-      pedidos: pedidos ? pedidos : statusData.pedidos,
-      situacao: situacao ? situacao : statusData.situacao,
-      integracao: integracao ? integracao : statusData.integracao,
-      busca: busca ? busca : statusData.busca,
+      pedidos: pedidos || statusData.pedidos,
+      situacao: situacao || statusData.situacao,
+      integracao: integracao || statusData.integracao,
+      busca: busca || statusData.busca,
       data: (() => {
         if (data == "") return "";
         if (data != void 0) return data;
         return statusData.data;
       })(),
-      page: page ? page : 1,
-      pages: pages ? pages : statusData.pages,
+      page: page || 1,
+      pages: pages || statusData.pages,
     });
   }
 
   function infoToUrl(pars: UI_FiltrarPedidos) {
+    const check = (key: keyof { situacao: string; integracao: string }) => {
+      let tx = "";
+      if (!key || pars[key] === "todos") return "";
+      if (!pars[key]) tx += `&${key}=${pars[key]}`;
+      else if (
+        statusData[key]?.toLowerCase() !== "todos" &&
+        statusData[key] !== ""
+      )
+        tx += `&${key}=${statusData[key]}`;
+      return tx;
+    };
+
     let text = `/pedidos?itens=true`;
 
     if (pars.page != undefined)
       text += pars.page > 0 ? `&page=${pars.page}` : `&page=1`;
 
     if (text.indexOf("page") === -1) text += "&page=1";
-
-    if (pars.situacao !== undefined) {
-      if (pars.situacao !== "" && pars.situacao.toLowerCase() !== "todos")
-        text += `&situacao=${pars.situacao}`;
-      else if (
-        pars.situacao.toLowerCase() !== "todos" &&
-        statusData.situacao !== "todos"
-      )
-        text += `&situacao=${statusData.situacao}`;
-    } else if (statusData.situacao !== "" && statusData.situacao !== "todos")
-      text += `&situacao=${statusData.situacao}`;
-
-    if (pars.integracao !== undefined) {
-      if (pars.integracao !== "" && pars.integracao.toLowerCase() !== "todos")
-        text += `&integracao=${pars.integracao}`;
-      else if (
-        pars.integracao.toLowerCase() !== "todos" &&
-        statusData.integracao !== "todos"
-      )
-        text += `&integracao=${statusData.integracao}`;
-    } else if (
-      statusData.integracao !== "" &&
-      statusData.integracao !== "todos"
-    )
-      text += `&integracao=${statusData.integracao}`;
+    if (pars.situacao) text += check("situacao");
+    if (pars.integracao !== undefined) text += check("integracao");
 
     if (pars.data !== undefined && pars.data !== "")
       text += `&gerado=${pars.data}`;

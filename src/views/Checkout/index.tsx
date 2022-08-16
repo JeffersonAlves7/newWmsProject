@@ -128,8 +128,8 @@ export default function Checkout() {
         <Subtitle text={"Pedido: " + pedido.pedido} />
       </header>
       <main className="flex w-full  gap-4 flex-row items-center flex-wrap justify-center md:justify-start lg:justify-between">
-        {pedido.finalizado === true ? (
-          isAvailable === true ? (
+        {pedido.finalizado ? (
+          isAvailable ? (
             <div className="h-[42rem] flex-col flex gap-10 w-full max-w-[23rem]">
               <div className="text-green-500">
                 <Title text="Conferência completa" />

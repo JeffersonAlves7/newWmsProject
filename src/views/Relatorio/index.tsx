@@ -33,47 +33,35 @@ export default function Relatorio() {
     const { situacao, integracao, busca, data, page, pedidos, pages } = pars;
 
     setStatusData({
-      pedidos: pedidos ? pedidos : statusData.pedidos,
-      situacao: situacao ? situacao : statusData.situacao,
-      integracao: integracao ? integracao : statusData.integracao,
-      busca: busca ? busca : statusData.busca,
+      pedidos: pedidos || statusData.pedidos,
+      situacao: situacao || statusData.situacao,
+      integracao: integracao || statusData.integracao,
+      busca: busca || statusData.busca,
       data: (() => {
         if (data == "") return "";
         if (data != undefined) return data;
         return statusData.data;
       })(),
-      page: page ? page : 1,
-      pages: pages ? pages : statusData.pages,
+      page: page || 1,
+      pages: pages || statusData.pages,
     });
   }
 
   function infoToUrl(pars: UI_FiltrarPedidos) {
+    const check = (key: keyof { situacao: string; integracao: string }) => {
+      let tx = "";
+      if (!key || pars[key] === "todos") return "";
+      if (!pars[key]) tx += `&${key}=${pars[key]}`;
+      else if (
+        statusData[key]?.toLowerCase() !== "todos" &&
+        statusData[key] !== ""
+      )
+        tx += `&${key}=${statusData[key]}`;
+      return tx;
+    };
     let text = `/pedidos`;
-
-    if (pars.situacao !== undefined) {
-      if (pars.situacao !== "" && pars.situacao.toLowerCase() !== "todos")
-        text += `&situacao=${pars.situacao}`;
-      else if (
-        pars.situacao.toLowerCase() !== "todos" &&
-        statusData.situacao !== "todos"
-      )
-        text += `&situacao=${statusData.situacao}`;
-    } else if (statusData.situacao !== "" && statusData.situacao !== "todos")
-      text += `&situacao=${statusData.situacao}`;
-
-    if (pars.integracao !== undefined) {
-      if (pars.integracao !== "" && pars.integracao.toLowerCase() !== "todos")
-        text += `&integracao=${pars.integracao}`;
-      else if (
-        pars.integracao.toLowerCase() !== "todos" &&
-        statusData.integracao !== "todos"
-      )
-        text += `&integracao=${statusData.integracao}`;
-    } else if (
-      statusData.integracao !== "" &&
-      statusData.integracao !== "todos"
-    )
-      text += `&integracao=${statusData.integracao}`;
+    if (pars.situacao !== undefined) text += check("situacao");
+    if (pars.integracao !== undefined) text += check("integracao");
 
     if (pars.data !== undefined && pars.data !== "")
       text += `&date=${pars.data}`;
@@ -91,33 +79,26 @@ export default function Relatorio() {
 
   function updateSituacao(situacao: UISituacao["situacao"]) {
     if (situacao == statusData.situacao) return;
-    const url = infoToUrl({ situacao });
-
     api
-      .get(url)
+      .get(infoToUrl({ situacao }))
       .then(({ data }) => setInfo({ pedidos: data.response, situacao }));
   }
 
   function updateIntegracao(integracao: UIFiltrarPedidos["integracao"]) {
     if (integracao == statusData.integracao) return;
-    const url = infoToUrl({ integracao });
-
     api
-      .get(url)
+      .get(infoToUrl({ integracao }))
       .then(({ data }) => setInfo({ pedidos: data.response, integracao }));
   }
 
   function updateData(data_: UIFiltrarPedidos["data"]) {
     if (data_ == statusData.data) return;
-    const url = infoToUrl({ data: data_ });
-
     api
-      .get(url)
+      .get(infoToUrl({ data: data_ }))
       .then(({ data }) => setInfo({ pedidos: data.response, data: data_ }));
   }
 
   function Buscar(value: string) {
-    console.log(value);
     if (value.trim() === "") {
       api
         .get("/pedidos")
@@ -132,8 +113,7 @@ export default function Relatorio() {
   const ThCell = (props: { text: string | number }) => (
     <th>
       <div className="pb-2 pl-2 flex items-center justify-center">
-        {" "}
-        <p>{props.text}</p>{" "}
+        <p>{props.text}</p>
       </div>
     </th>
   );
@@ -151,10 +131,8 @@ export default function Relatorio() {
           <Filtro
             title="Situação"
             seletorId="seletorSituacao"
-            cb={(e: KeyboardEvent) => {
-              updateSituacao(
-                (e.target as HTMLSelectElement).value as UISituacao["situacao"]
-              );
+            cb={({ target }: { target: HTMLSelectElement }) => {
+              updateSituacao(target.value as UISituacao["situacao"]);
             }}
             name="situacao"
             options={{
@@ -168,11 +146,8 @@ export default function Relatorio() {
           <Filtro
             title="Canais"
             seletorId="seletorCanais"
-            cb={(e: KeyboardEvent) => {
-              updateIntegracao(
-                (e.target as HTMLSelectElement)
-                  .value as UIIntegracao["integracao"]
-              );
+            cb={({ target }: { target: HTMLInputElement }) => {
+              updateIntegracao(target.value as UIIntegracao["integracao"]);
             }}
             name="integracao"
             options={{
@@ -184,18 +159,14 @@ export default function Relatorio() {
             }}
           />
           <DataSelector
-            cb={(e: KeyboardEvent) => {
-              updateData(
-                (e.target as HTMLDataElement).value as UIFiltrarPedidos["data"]
-              );
+            cb={({ target }: { target: HTMLDataElement }) => {
+              updateData(target.value as UIFiltrarPedidos["data"]);
             }}
           />
           <PrintButton />
           <div className=" p-1 rounded-lg border text-wmsPink  border-wmsBlack">
             <Paragraph
-              text={(
-                statusData.pedidos.length + " pedidos encontrados"
-              ).toUpperCase()}
+              text={`${statusData.pedidos.length} pedidos encontrados`.toUpperCase()}
             />
           </div>
         </div>
@@ -204,19 +175,19 @@ export default function Relatorio() {
         <table className="w-full">
           <thead className="print:hidden">
             <tr className="text-xl border-b-2 border-b-wmsGrey">
-              <ThCell text="Chave de Acesso" />
               <ThCell text="NF-e" />
-              <ThCell text="Pedido" />
-              <ThCell text="Integração" />
-              <ThCell text="Status" />
-              <ThCell text="Data" />
+              <ThCell text="Chave de Acesso" />
+              <ThCell text="SKU" />
+              <ThCell text="Número do Pedido" />
+              <ThCell text="Canal" />
+              <ThCell text="Qnt" />
             </tr>
           </thead>
           <tbody>
-            {statusData.pedidos.map((pedido) => (
+            {statusData.pedidos.map(({ chavedeacesso }, i) => (
               <RelatorioRow
-                key={"relatorio_" + pedido.chavedeacesso}
-                pedido={pedido}
+                key={"relat_" + chavedeacesso}
+                pedido={statusData.pedidos[i]}
               />
             ))}
           </tbody>

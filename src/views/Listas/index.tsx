@@ -14,8 +14,7 @@ import Subtitle from "../../components/Texts/Subtitle";
 function TheadCell({ text, className }: { text: string; className?: string }) {
   return (
     <th className={className ? className : ""}>
-      {" "}
-      <Subtitle text={text} />{" "}
+      <Subtitle text={text} />
     </th>
   );
 }
@@ -44,12 +43,12 @@ export default function Listas() {
         <Filtro
           title="Canais"
           seletorId="seletorCanais"
-          cb={(e: KeyboardEvent) => {
+          cb={(e: KeyboardEvent) =>
             alterData(
               (e.target as HTMLSelectElement)
                 .value as UILista["lista_integracao"]
-            );
-          }}
+            )
+          }
           name="integracao"
           options={{
             todos: "Todos",
@@ -69,15 +68,10 @@ export default function Listas() {
               <TheadCell text="Integração" />
               <TheadCell text="Pedidos" />
               <TheadCell text="Status" />
-              {listas.length >= 1 ? (
-                listas[0].lista_situacao === "finalizado" ? (
+              {listas.length >= 1 &&
+                listas[0].lista_situacao === "finalizado" && (
                   <TheadCell text="Data" />
-                ) : (
-                  <></>
-                )
-              ) : (
-                <></>
-              )}
+                )}
             </tr>
           </thead>
           <tbody>

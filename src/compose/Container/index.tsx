@@ -3,8 +3,7 @@ import Header from "../Header";
 import { useLocation } from "react-router-dom";
 
 export default function Container(props: PropsWithChildren) {
-  const { pathname } = useLocation();
-  if (pathname === "/login") return <>{props.children}</>;
+  if (useLocation().pathname === "/login") return <>{props.children}</>;
   return (
     <>
       <Header />
